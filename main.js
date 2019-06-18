@@ -47,9 +47,43 @@ const inputSpreadRadius = document.getElementById('spread-radius')
 
 //#endregion
 
-//#region Functions
+//#region Util functions
 
-// Input
+function CopyText(text) {
+  const temp = document.createElement('textarea')
+  temp.value = text
+  document.body.appendChild(temp)
+  temp.select()
+  document.execCommand('copy')
+  temp.remove()
+}
+
+function DownloadFile(href) {
+  const temp = document.createElement('a')
+  temp.setAttribute('download', 'box.png')
+  temp.setAttribute('href', href)
+  document.body.appendChild(temp)
+  temp.click()
+  temp.remove()
+}
+
+// https://stackoverflow.com/a/7838871
+function RoundedRect(ctx, x, y, w, h, r) {
+  if (r * 2 > w) r = w / 2
+  if (r * 2 > h) r = h / 2
+ 
+  ctx.beginPath()
+  ctx.moveTo(x+r, y)
+  ctx.arcTo(x+w, y  , x+w, y+h, r)
+  ctx.arcTo(x+w, y+h, x  , y+h, r)
+  ctx.arcTo(x  , y+h, x  , y  , r)
+  ctx.arcTo(x  , y  , x+w, y  , r)
+  ctx.closePath()
+}
+
+//#endregion
+
+//#region Main functions
 function ReadQueryParams() {
   const urlParams = new URLSearchParams(location.search)
 
@@ -64,15 +98,6 @@ function ReadQueryParams() {
   inputBoxShadowY.value = +urlParams.get(paramBoxShadowY) || defaultBoxShadowY
   inputBlurRadius.value = +urlParams.get(paramBlurRadius) || defaultBlurRadius
   inputSpreadRadius.value = +urlParams.get(paramSpreadRadius) || defaultSpreadRadius
-}
-
-function CopyText(text) {
-  const temp = document.createElement('textarea')
-  temp.value = text
-  document.body.appendChild(temp)
-  temp.select()
-  document.execCommand('copy')
-  temp.remove()
 }
 
 function CopyCSS() {
@@ -121,8 +146,7 @@ function GenerateLink() {
   CopyText(newURL)
 }
 
-// If download true, downloads and stay on page, else show the image on new page
-function GeneratePNG(download) {
+function GeneratePNG() {
   const boxWidth = +inputBoxWidth.value
   const boxHeight = +inputBoxHeight.value
   const boxMargin = +inputBoxMargin.value
@@ -148,26 +172,7 @@ function GeneratePNG(download) {
   ctx.fillStyle = inputBoxColor.value
   ctx.fill()
 
-  // Link
-  const link = document.createElement('a')
-  link.setAttribute('download', 'box.png')
-  link.setAttribute('href', canvas.toDataURL())
-  link.click()
-  link.remove()
-}
-
-// https://stackoverflow.com/a/7838871
-function RoundedRect(ctx, x, y, w, h, r) {
-  if (r * 2 > w) r = w / 2
-  if (r * 2 > h) r = h / 2
- 
-  ctx.beginPath()
-  ctx.moveTo(x+r, y)
-  ctx.arcTo(x+w, y  , x+w, y+h, r)
-  ctx.arcTo(x+w, y+h, x  , y+h, r)
-  ctx.arcTo(x  , y+h, x  , y  , r)
-  ctx.arcTo(x  , y  , x+w, y  , r)
-  ctx.closePath()
+  DownloadFile(canvas.toDataURL())
 }
 
 function UpdateFinal() {
