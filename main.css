@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fefefe;
+}
+
+a {
+  position: relative;
+  color: #343a40;
+}
+
+a:hover, a:focus, a:active {
+  color: #343a40;
+  text-decoration: none;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  background-color: #343a40;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 1px;
+  transition: left .2s ease, width .2s ease;
+}
+
+a:hover::after, a:focus::after, a:active::after {
+  left: 0;
+  width: 100%;
+}
+
+.input-label {
+  min-width: 150px;
+  margin: auto 0;
+  flex-grow: 1;
+}
+
+.input-field {
+  width: 120px;
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+.border-dark-50 {
+  border-color: #343a4080;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+#css-wrapper {
+  margin: 0;
+  height: auto;
+}
+
+#final-wrapper {
+  padding: 1px;
+}
+
+#copy-css-btn {
+  position: absolute;
+  right: 0;
+  border-radius: .25rem;
+  border-color: #343a4030;
+}
